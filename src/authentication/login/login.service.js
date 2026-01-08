@@ -12,19 +12,16 @@ export const loginUser = async (userCredential) => {
 
     const { mobile, password } = userCredential;
 
-    // Find user by mobile
     const user = await findUserByMobile(mobile);
     if (!user) {
         throw { status: 404, message: "User not found" };
     }
 
-    // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
         throw { status: 400, message: "Incorrect password" };
     }
 
-    // Generate JWT token
     const token = jwt.sign(
         { mobile: user.mobile },
         process.env.JWT_SECRET || "secret key",

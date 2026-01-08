@@ -1,6 +1,6 @@
 import { loginUser } from "./login.service.js";
 
-export const loginController = async (req, res) => {
+export const loginUserController = async (req, res) => {
     try {
         const userCredential = req.body;
 

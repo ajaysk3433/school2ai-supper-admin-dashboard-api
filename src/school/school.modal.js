@@ -71,7 +71,47 @@ export const insertSchool = ({
             }
 
             resolve({
-                school_id: result.insertId,
+                schoolId: result.insertId,
+            });
+        });
+    });
+};
+
+export const updateSchoolFieldByID = (schoolId, field, value) => {
+    const sql = `
+    UPDATE school_master_profile
+    SET
+     ${field} = ?
+    WHERE school_id = ?;
+  `;
+
+    return new Promise((resolve, reject) => {
+        pool.query(sql, [value, schoolId], (err, result) => {
+            if (err) {
+                return reject(err);
+            }
+
+            resolve({
+                schoolId: result.insertId,
+                affectedRows: result.affectedRows,
+            });
+        });
+    });
+};
+
+export const deleteSchoolByID = (schoolId) => {
+    const sql = `
+    DELETE FROM school_master_profile
+    WHERE school_id = ?;
+  `;
+
+    return new Promise((resolve, reject) => {
+        pool.query(sql, [schoolId], (err, result) => {
+            if (err) return reject(err);
+
+            resolve({
+                schoolId,
+                affectedRows: result.affectedRows,
             });
         });
     });
