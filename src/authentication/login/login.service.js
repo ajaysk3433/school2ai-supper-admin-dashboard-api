@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { findUserByMobile } from "./user.model.js";
+import { findUserByEmail } from "../../model/user.model.js";
 
 export const loginUser = async (userCredential) => {
     // Validate all fields present
@@ -10,9 +10,9 @@ export const loginUser = async (userCredential) => {
         }
     }
 
-    const { mobile, password } = userCredential;
+    const { email, password } = userCredential;
 
-    const user = await findUserByMobile(mobile);
+    const user = await findUserByEmail(email);
     if (!user) {
         throw { status: 404, message: "User not found" };
     }

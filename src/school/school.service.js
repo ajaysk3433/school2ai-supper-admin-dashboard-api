@@ -3,7 +3,7 @@ import {
     insertSchool,
     updateSchoolFieldByID,
     deleteSchoolByID,
-} from "./school.modal.js";
+} from "../model/school.modal.js";
 export const getAllSchoolDetails = async () => {
     const schoolDetails = await findAllSchool();
     return schoolDetails;

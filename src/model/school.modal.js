@@ -1,7 +1,7 @@
 import pool from "../database/db.js";
 
 export const findAllSchool = () => {
-    const sql = "SELECT * FROM school_master_profile";
+    const sql = "SELECT * FROM schools";
     return new Promise((resolve, reject) => {
         pool.query(sql, (err, result) => {
             if (err) {
@@ -29,7 +29,7 @@ export const insertSchool = ({
     allowed_domains,
 }) => {
     const sql = `
-        INSERT INTO school_master_profile (
+        INSERT INTO schools (
             school_name,
             country,
             state,
@@ -79,7 +79,7 @@ export const insertSchool = ({
 
 export const updateSchoolFieldByID = (schoolId, field, value) => {
     const sql = `
-    UPDATE school_master_profile
+    UPDATE schools
     SET
      ${field} = ?
     WHERE school_id = ?;
@@ -101,7 +101,7 @@ export const updateSchoolFieldByID = (schoolId, field, value) => {
 
 export const deleteSchoolByID = (schoolId) => {
     const sql = `
-    DELETE FROM school_master_profile
+    DELETE FROM schools
     WHERE school_id = ?;
   `;
 
