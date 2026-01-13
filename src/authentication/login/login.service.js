@@ -1,7 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { findUserByEmail, findUserByMobile } from "../../model/user.model.js";
-import { insertOtp, findOtp } from "../../model/otps.model.js";
+import {
+    insertOtp,
+    findOtp,
+    removeExpiredOtp,
+} from "../../model/otps.model.js";
 
 export const loginUser = async (userCredential) => {
     // Validate all fields present
@@ -49,6 +53,29 @@ export const sendOtp = async ({ mobile_no }) => {
         }
         const result = await insertOtp(value);
         console.log(result);
+    } catch (error) {
+        throw { status: 500, message: "Database error" };
+    }
+
+    console.log(expiresAt);
+};
+
+export const verifyOtp = async ({ mobile_no, otp }) => {
+    try {
+        const otpExist = await findOtp([mobile_no]);
+        if (otpExist) {
+            if (otpExist.otp === otp) {
+                const token = jwt.sign(
+                    { mobile: mobile_no },
+                    process.env.JWT_SECRET,
+                    { expiresIn: "1h" }
+                );
+                removeExpiredOtp();
+                return token;
+            }
+        }
+
+        return false;
     } catch (error) {
         throw { status: 500, message: "Database error" };
     }

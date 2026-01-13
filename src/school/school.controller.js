@@ -18,8 +18,8 @@ export const getAllSchoolDetailsController = async (req, res) => {
 export const createNewSchoolController = async (req, res) => {
     try {
         const newSchoolDetails = req.body;
-        const schoolId = await createNewSchool(newSchoolDetails);
-        res.status(200).json(schoolId);
+        const credential = await createNewSchool(newSchoolDetails);
+        res.status(200).json(credential);
     } catch (error) {
         const status = error.status || 500;
         const message = error.message || "Something went wrong";

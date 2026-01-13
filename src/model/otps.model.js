@@ -24,3 +24,16 @@ export const findOtp = (value) => {
         });
     });
 };
+
+export const removeExpiredOtp = () => {
+    const sql = `DELETE FROM otps WHERE expires_at <= NOW();`;
+    return new Promise((response, reject) => {
+        pool.query(sql, (error, results) => {
+            if (error) {
+                reject(error);
+            }
+
+            response(results.affectedRows);
+        });
+    });
+};

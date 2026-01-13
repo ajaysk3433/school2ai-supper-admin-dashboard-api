@@ -18,7 +18,7 @@ export const insertRole = (newRole) => {
             if (err) {
                 return reject(err);
             }
-            resolve(results[0]);
+            resolve({ roleId: results.insertId });
         });
     });
 };

@@ -4,11 +4,16 @@ import {
     updateSchoolFieldByID,
     deleteSchoolByID,
 } from "../model/school.modal.js";
+import { insertRole } from "../model/roles.model.js";
+import { populateSchoolFeatures } from "../model/features.model.js";
+import { insertUser } from "../model/user.model.js";
+import bcrypt from "bcrypt";
+
 export const getAllSchoolDetails = async () => {
     const schoolDetails = await findAllSchool();
     return schoolDetails;
 };
-
+const saltRounds = 10;
 export const createNewSchool = async (newSchoolDetails) => {
     // Validate all fields present
     for (const key in newSchoolDetails) {
@@ -17,8 +22,25 @@ export const createNewSchool = async (newSchoolDetails) => {
         }
     }
 
-    const schoolId = await insertSchool(newSchoolDetails);
-    return schoolId;
+    const { schoolId } = await insertSchool(newSchoolDetails);
+    const { roleId } = await insertRole(["SCHOOL_ADMIN", schoolId]);
+
+    await populateSchoolFeatures([schoolId]);
+    const password = "ADMIN12345";
+    const hash = await bcrypt.hash(password, saltRounds);
+    const result = await insertUser([
+        "ADMIN",
+        roleId,
+        schoolId,
+        newSchoolDetails.email,
+        newSchoolDetails.mobileNo,
+        hash,
+        "School admin ",
+    ]);
+
+    console.log(result);
+
+    return { email: newSchoolDetails.email, password };
 };
 
 export const updateSchoolField = async (schoolId, field, value) => {

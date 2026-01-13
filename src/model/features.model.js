@@ -10,3 +10,18 @@ export const insertFeature = (value) => {
         });
     });
 };
+
+export const populateSchoolFeatures = (value) => {
+    const sql = `INSERT INTO school_features (school_id, feature_id)
+SELECT ?, id FROM features;
+`;
+
+    return new Promise((resolve, reject) => {
+        pool.query(sql, value, (error, result) => {
+            if (error) {
+                return reject(error);
+            }
+            resolve(result);
+        });
+    });
+};
