@@ -4,6 +4,7 @@ export const createFeature = async (newFeature) => {
     try {
         const status = await insertFeature(value);
     } catch (error) {
-        console.log(error);
+        // console.log(error);
+        throw { status: 500, message: "Database error" };
     }
 };

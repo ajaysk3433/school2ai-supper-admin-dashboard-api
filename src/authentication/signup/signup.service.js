@@ -30,6 +30,7 @@ export const singupUser = async (newUser) => {
         newUser.role_id,
         newUser.school_id,
         newUser.email,
+        newUser.mobile_no,
         hash,
         newUser.description || null,
     ];
