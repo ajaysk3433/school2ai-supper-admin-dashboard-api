@@ -1,17 +1,27 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { findUserByEmail, insertUser } from "../../model/user.model.js";
-
+import { singupValidation } from "../../validation/signup.validation..js";
 const saltRounds = 10;
 export const singupUser = async (newUser) => {
-    for (let key in newUser) {
-        if (!newUser[key]) {
-            throw {
-                status: 400,
-                message: `Field "${key}" is required`,
-            };
-        }
+    try {
+        singupValidation(newUser);
+    } catch (error) {
+        console.log("Z", error.message);
+
+        throw {
+            status: 400,
+            message: error.message,
+        };
     }
+    // for (let key in newUser) {
+    //     if (!newUser[key]) {
+    //         throw {
+    //             status: 400,
+    //             message: `Field "${key}" is required`,
+    //         };
+    //     }
+    // }
 
     const mobileExists = await findUserByEmail(newUser.email);
 
@@ -28,7 +38,7 @@ export const singupUser = async (newUser) => {
     const values = [
         newUser.name,
         newUser.role_id,
-        newUser.school_id,
+        newUser.school_id || null,
         newUser.email,
         newUser.mobile_no,
         hash,
