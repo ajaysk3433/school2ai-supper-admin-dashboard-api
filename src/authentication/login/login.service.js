@@ -6,13 +6,16 @@ import {
     findOtp,
     removeExpiredOtp,
 } from "../../model/otps.model.js";
-
+import {
+    loginValidation,
+    mobileValidation,
+    otpValidation,
+} from "../../validation/loginValidation.js";
 export const loginUser = async (userCredential) => {
-    // Validate all fields present
-    for (const key in userCredential) {
-        if (!userCredential[key]) {
-            throw { status: 400, message: `Field "${key}" is required` };
-        }
+    try {
+        loginValidation(userCredential);
+    } catch (error) {
+        throw { status: 400, message: error.message };
     }
 
     const { email, password } = userCredential;
@@ -37,6 +40,11 @@ export const loginUser = async (userCredential) => {
 };
 
 export const sendOtp = async ({ mobile_no }) => {
+    try {
+        mobileValidation({ mobileNo: mobile_no });
+    } catch (error) {
+        throw { status: 400, message: error.message };
+    }
     const result = await findUserByMobile(mobile_no);
     if (!result) {
         throw { status: 404, message: "User not found" };
@@ -61,6 +69,12 @@ export const sendOtp = async ({ mobile_no }) => {
 };
 
 export const verifyOtp = async ({ mobile_no, otp }) => {
+    try {
+        mobileValidation({ mobileNo: mobile_no });
+        otpValidation({ otp });
+    } catch (error) {
+        throw { status: 400, message: error.message };
+    }
     try {
         const otpExist = await findOtp([mobile_no]);
         if (otpExist) {

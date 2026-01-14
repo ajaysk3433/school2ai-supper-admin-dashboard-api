@@ -8,20 +8,25 @@ import { insertRole } from "../model/roles.model.js";
 import { populateSchoolFeatures } from "../model/features.model.js";
 import { insertUser } from "../model/user.model.js";
 import bcrypt from "bcrypt";
-
+import { schoolValidation } from "../validation/schoolValidation.js";
 export const getAllSchoolDetails = async () => {
     const schoolDetails = await findAllSchool();
     return schoolDetails;
 };
 const saltRounds = 10;
 export const createNewSchool = async (newSchoolDetails) => {
-    // Validate all fields present
-    for (const key in newSchoolDetails) {
-        if (!newSchoolDetails[key]) {
-            throw { status: 400, message: `Field "${key}" is required` };
-        }
-    }
+    // // Validate all fields present
+    // for (const key in newSchoolDetails) {
+    //     if (!newSchoolDetails[key]) {
+    //         throw { status: 400, message: `Field "${key}" is required` };
+    //     }
+    // }
 
+    try {
+        schoolValidation(newSchoolDetails);
+    } catch (error) {
+        throw { status: 400, message: error.message };
+    }
     const { schoolId } = await insertSchool(newSchoolDetails);
     const { roleId } = await insertRole(["SCHOOL_ADMIN", schoolId]);
 
