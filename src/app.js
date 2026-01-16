@@ -4,10 +4,12 @@ import schoolRouter from "./school/school.router.js";
 import helmet from "helmet";
 import rolesRouter from "./role/roles.router.js";
 import featuresRouter from "./features/features.router.js";
+import cors from "cors";
 
 const app = express();
 app.use(express.json({ limit: "10kb" }));
 app.use(helmet());
+app.use(cors());
 
 app.use("/auth", authRouter);
 app.use("/school", schoolRouter);

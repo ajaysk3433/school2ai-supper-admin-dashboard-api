@@ -27,21 +27,41 @@ export const createNewSchool = async (newSchoolDetails) => {
     } catch (error) {
         throw { status: 400, message: error.message };
     }
-    const { schoolId } = await insertSchool(newSchoolDetails);
+
+    console.log(newSchoolDetails);
+    const schoolDetailsArray = [
+        newSchoolDetails.schoolName, // school_name
+        newSchoolDetails.country, // country
+        newSchoolDetails.state, // state
+        newSchoolDetails.city, // city
+        newSchoolDetails.pincode, // pincode
+        newSchoolDetails.cost, // cost
+        newSchoolDetails.studentCount, // student_count
+        newSchoolDetails.teacherCount, // teacher_count
+        newSchoolDetails.language, // language_preference
+        newSchoolDetails.board, // board
+        newSchoolDetails.status, // status
+        newSchoolDetails.website, // website_enabled
+        newSchoolDetails.domains, // allowed_domains
+        newSchoolDetails.timeZone, //timeZone
+    ];
+
+    const { schoolId } = await insertSchool(schoolDetailsArray);
     const { roleId } = await insertRole(["SCHOOL_ADMIN", schoolId]);
 
     await populateSchoolFeatures([schoolId]);
     const password = "ADMIN12345";
     const hash = await bcrypt.hash(password, saltRounds);
-    const result = await insertUser([
+    const newUserArray = [
         "ADMIN",
         roleId,
         schoolId,
         newSchoolDetails.email,
         newSchoolDetails.mobileNo,
         hash,
-        "School admin ",
-    ]);
+        newSchoolDetails.description,
+    ];
+    const result = await insertUser(newUserArray);
 
     console.log(result);
 

@@ -11,11 +11,11 @@ export const loginUserController = async (req, res) => {
             maxAge: 60 * 60 * 1000,
         });
 
-        res.status(200).send("Login successfully");
+        res.status(200).json({ isSuccess: true });
     } catch (error) {
         const status = error.status || 500;
         const message = error.message || "Something went wrong";
-        res.status(status).send(message);
+        res.status(status).json({ isSuccess: false, message });
     }
 };
 

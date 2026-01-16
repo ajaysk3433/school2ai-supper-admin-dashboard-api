@@ -5,18 +5,20 @@ export const schoolValidation = (obj) => {
         .object({
             name: z.string().nonempty(),
 
-            role_id: z.number().positive(),
+            // role_id: z.number().positive(),
 
-            school_id: z.number().positive(),
+            // school_id: z.number().positive(),
 
             email: z.email(),
 
-            mobile_no: z.string(),
-            password: z.string().min(6),
+            mobileNo: z.string(),
+            // password: z.string().min(6),
+
+            timeZone: z.string(),
 
             description: z.string().optional(),
 
-            school_name: z.string().min(2),
+            schoolName: z.string().min(2),
 
             country: z.string().min(2),
 
@@ -26,23 +28,21 @@ export const schoolValidation = (obj) => {
 
             pincode: z.string(),
 
-            timezone: z.string().min(1),
-
             cost: z.number().positive(),
 
-            student_count: z.number().positive(),
+            studentCount: z.number().positive(),
 
-            teacher_count: z.number().positive(),
+            teacherCount: z.number().positive(),
 
-            language_preference: z.string().min(1),
+            language: z.string().min(1),
 
             board: z.enum(["CBSE", "ICSE", "State", "IB", "IGCSE"]),
 
             status: z.enum(["Active", "Inactive"]),
 
-            website_enabled: z.boolean(),
+            website: z.boolean(),
 
-            allowed_domains: z.string().optional(),
+            domains: z.string().optional(),
         })
         .strict();
 

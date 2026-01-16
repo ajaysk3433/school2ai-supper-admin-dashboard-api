@@ -12,22 +12,7 @@ export const findAllSchool = () => {
     });
 };
 
-export const insertSchool = ({
-    school_name,
-    country,
-    state,
-    city,
-    pincode,
-    timezone,
-    cost,
-    student_count,
-    teacher_count,
-    language_preference,
-    board,
-    status,
-    website_enabled,
-    allowed_domains,
-}) => {
+export const insertSchool = (values) => {
     const sql = `
         INSERT INTO schools (
             school_name,
@@ -35,7 +20,6 @@ export const insertSchool = ({
             state,
             city,
             pincode,
-            timezone,
             cost,
             student_count,
             teacher_count,
@@ -43,26 +27,27 @@ export const insertSchool = ({
             board,
             status,
             website_enabled,
-            allowed_domains
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            allowed_domains,
+            timezone
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)
     `;
 
-    const values = [
-        school_name,
-        country,
-        state,
-        city,
-        pincode,
-        timezone,
-        cost,
-        student_count,
-        teacher_count,
-        language_preference,
-        board,
-        status,
-        website_enabled,
-        allowed_domains,
-    ];
+    // const values = [
+    //     school_name,
+    //     country,
+    //     state,
+    //     city,
+    //     pincode,
+    //     timezone,
+    //     cost,
+    //     student_count,
+    //     teacher_count,
+    //     language_preference,
+    //     board,
+    //     status,
+    //     website_enabled,
+    //     allowed_domains,
+    // ];
 
     return new Promise((resolve, reject) => {
         pool.query(sql, values, (err, result) => {
