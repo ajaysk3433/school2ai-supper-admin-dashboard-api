@@ -12,6 +12,18 @@ export const findAllSchool = () => {
     });
 };
 
+export const findSchoolById = (value) => {
+    const sql = "SELECT * FROM schools WHERE school_id = ?";
+    return new Promise((resolve, reject) => {
+        pool.query(sql, value, (err, result) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(result);
+        });
+    });
+};
+
 export const insertSchool = (values) => {
     const sql = `
         INSERT INTO schools (

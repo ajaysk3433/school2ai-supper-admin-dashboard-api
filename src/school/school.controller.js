@@ -3,10 +3,22 @@ import {
     createNewSchool,
     updateSchoolField,
     deleteSchool,
+    getSchoolDetails,
 } from "./school.service.js";
 export const getAllSchoolDetailsController = async (req, res) => {
     try {
         const schoolDetails = await getAllSchoolDetails();
+        res.status(200).json(schoolDetails);
+    } catch (error) {
+        const status = error.status || 500;
+        const message = error.message || "Something went wrong";
+        res.status(status).send(message);
+    }
+};
+
+export const getSchoolDetailsController = async (req, res) => {
+    try {
+        const schoolDetails = await getSchoolDetails(req.params);
         res.status(200).json(schoolDetails);
     } catch (error) {
         const status = error.status || 500;

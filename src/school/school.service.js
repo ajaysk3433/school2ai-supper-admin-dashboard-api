@@ -3,16 +3,24 @@ import {
     insertSchool,
     updateSchoolFieldByID,
     deleteSchoolByID,
+    findSchoolById,
 } from "../model/school.modal.js";
 import { insertRole } from "../model/roles.model.js";
 import { populateSchoolFeatures } from "../model/features.model.js";
 import { insertUser } from "../model/user.model.js";
 import bcrypt from "bcrypt";
 import { schoolValidation } from "../validation/schoolValidation.js";
+
 export const getAllSchoolDetails = async () => {
     const schoolDetails = await findAllSchool();
     return schoolDetails;
 };
+
+export const getSchoolDetails = async ({ id }) => {
+    const schoolDetails = await findSchoolById([id]);
+    return schoolDetails;
+};
+
 const saltRounds = 10;
 export const createNewSchool = async (newSchoolDetails) => {
     // // Validate all fields present
