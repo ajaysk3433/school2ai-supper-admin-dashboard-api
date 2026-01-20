@@ -9,6 +9,7 @@ export const loginUserController = async (req, res) => {
         res.cookie("token", token, {
             httpOnly: true,
             maxAge: 60 * 60 * 1000,
+            path: "/",
         });
 
         res.status(200).json({ isSuccess: true });
@@ -37,6 +38,8 @@ export const verifyOtpController = async (req, res) => {
             res.cookie("token", token, {
                 httpOnly: true,
                 maxAge: 60 * 60 * 1000,
+                sameSite: "none",
+                secure: true,
             });
 
             res.status(200).send("login successfully");
