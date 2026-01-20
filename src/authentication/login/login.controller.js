@@ -52,3 +52,12 @@ export const verifyOtpController = async (req, res) => {
         res.status(status).send(message);
     }
 };
+
+export const logoutController = (req, res) => {
+    res.clearCookie("token");
+
+    return res.status(200).json({
+        isSuccess: true,
+        message: "Logged out successfully",
+    });
+};
